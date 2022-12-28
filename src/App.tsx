@@ -1,24 +1,61 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import './App.scss';
+import DisplayCharacters from './components/DisplayCharacters/DisplayCharacters';
+import DisplaySingleCharacter from './components/DisplayCharacter/DisplayCharacter';
+import Header from './components/Header/Header';
+import { TCharacters } from './models/TCharacters';
+import FetchCharacterData from './components/FetchCharacterData/FetchCharacterData';
+
+const defaultCharacterList: TCharacters[] = [];
 
 function App() {
+  const [characterList, setCharacterList] = useState(defaultCharacterList);
+  const [isDataLoaded, setDataIsLoaded] = useState(false);
+  const [fetchError, setFetchError] = useState('');
+  const [spiecesId, setSpiecesId] = useState(0);
+
+  const handleResponse = (
+    characterData: TCharacters[],
+    isFetchCompleted: boolean,
+    errorMessage: string
+  ) => {
+    if (!isFetchCompleted) {
+      setFetchError(errorMessage);
+      return;
+    } else {
+      setCharacterList(characterData);
+      setDataIsLoaded(isFetchCompleted);
+    }
+  };
+
+  const onRetrieveSpiecesId = (id: number) => {
+    setSpiecesId(id);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="star-wars-app">
+      <FetchCharacterData onHandleResponse={handleResponse} />
+      <Router>
+        <Header />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <DisplayCharacters
+                characterListState={characterList}
+                hasLoadedData={isDataLoaded}
+                onError={fetchError}
+                sendSpeciesId={onRetrieveSpiecesId}
+              />
+            }
+          />
+          <Route
+            path="/character/:id"
+            element={<DisplaySingleCharacter speciesId={spiecesId} />}
+          />
+        </Routes>
+      </Router>
     </div>
   );
 }

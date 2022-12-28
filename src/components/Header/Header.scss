@@ -1,0 +1,11 @@
+.star-wars__header {
+  display: flex;
+  justify-content: center;
+  background: black;
+
+  .star-wars__header--logo {
+    max-width: 400px;
+    margin: 0 auto;
+    width: 100%;
+  }
+}

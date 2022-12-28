@@ -1,0 +1,51 @@
+@import '../../assets/scss/variables.scss';
+
+.star-wars__details {
+  max-width: 850px;
+  margin: 2rem auto;
+
+  .star-wars__details--back-btn {
+    margin-left: 1rem;
+    padding: 10px;
+
+    &:hover,
+    &:active {
+      background-color: darken($color: $background-main, $amount: 5);
+    }
+  }
+
+  .star-wars__details--container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 70%;
+    max-width: 300px;
+    margin: 2rem auto;
+    padding: 1rem 2rem;
+    background: $card-background;
+    border-radius: 1rem;
+
+    .star-wars__details--heading {
+      text-align: center;
+    }
+
+    .star-wars__details--info {
+      display: flex;
+      flex-flow: column;
+      justify-content: space-between;
+
+      span {
+        text-transform: capitalize;
+      }
+    }
+  }
+
+  .star-wars__loading {
+    height: 100px;
+    text-align: center;
+  }
+
+  .star-wars__error-details {
+    text-align: center;
+  }
+}
